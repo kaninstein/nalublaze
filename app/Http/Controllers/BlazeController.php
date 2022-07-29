@@ -107,18 +107,29 @@ class BlazeController extends Controller
 
         foreach ($rollZeros as $rollZero) {
 
+            $calcDirection = $this->roll
+                ->where('roll_time', '>', Carbon::parse($rollZero->roll_time)->format('Y:m:d H:i:s'))
+                ->where('roll_time', '<', Carbon::parse($rollZero->roll_time)->addMinute()->format('Y:m:d H:i'))
+                ->count();
 
-//            $rolls = $this->roll
-//                ->where('roll_time', '>=', $rollZero->roll_time)
-//                ->orderBy('roll_time', 'asc')
-//                ->get();
+            if ($calcDirection > 0){
 
-            $rolls = $this->roll
-                ->where('roll_time', '>=', Carbon::parse($rollZero->roll_time)->format('Y:m:d H:i'))
-                ->orderBy('roll_time', 'asc')
-                ->get();
+                $rolls = $this->roll
+                    ->where('roll_time', '>=', Carbon::parse($rollZero->roll_time)->format('Y:m:d H:i:s'))
+                    ->orderby('roll_time', 'asc')
+                    ->get();
 
-            $count = 0;
+            } else {
+
+                $rolls = $this->roll
+                    ->where('roll_time', '<=', Carbon::parse($rollZero->roll_time)->format('Y:m:d H:i:s'))
+                    ->orderby('roll_time', 'desc')
+                    ->get();
+
+            }
+
+
+            $count = 5;
 
             foreach ($rolls->except($rollZero->id) as $roll) {
 
@@ -129,6 +140,8 @@ class BlazeController extends Controller
                     ->where('base_color_id', $roll->id)->count();
 
                 if ($verifyRoll == 0) {
+
+                    $count += ($roll->color == 0) ? 5 : 0;
 
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
