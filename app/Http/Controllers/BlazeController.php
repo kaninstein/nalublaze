@@ -131,7 +131,9 @@ class BlazeController extends Controller
 
             $count = 5;
 
-            foreach ($rolls->except($rollZero->id) as $roll) {
+            foreach ($rolls as $roll) {
+
+                $count += ($roll->color == 0) ? 5 : 0;
 
                 $count += $roll->number;
 
@@ -140,8 +142,6 @@ class BlazeController extends Controller
                     ->where('base_color_id', $roll->id)->count();
 
                 if ($verifyRoll == 0) {
-
-                    $count += ($roll->color == 0) ? 5 : 0;
 
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
