@@ -59,7 +59,7 @@ class Blaze
 
     public static function getDateTime($date, $seconds = null)
     {
-        $timeString = ($seconds == 1 ? 'Y-MM-DD HH:mm:ss' : 'Y-MM-DD HH:mm');
+        $timeString = ($seconds == 1 ? 'Y-m-d H:i:s' : 'Y-m-d H:i');
 
         $dateFormat = Carbon::parse($date)->format($timeString);
 
@@ -69,7 +69,7 @@ class Blaze
 
     public static function getDateTimeNext($date, $seconds = null)
     {
-        $timeString = ($seconds == 1 ? 'Y-MM-DD HH:mm:ss' : 'Y-MM-DD HH:mm');
+        $timeString = ($seconds == 1 ? 'Y-m-d H:i:s' : 'Y-m-d H:i');
 
         $dateFormat = Carbon::parse($date)->addMinute()->format($timeString);
 
@@ -80,7 +80,7 @@ class Blaze
     public static function getDateTimeZone($date, $baseTimeZone = 'UTC', $newTimeZone = 'America/Sao_Paulo')
     {
 
-        $dateFormat = Carbon::parse($date, $baseTimeZone)->setTimezone($newTimeZone)->format('Y-MM-DD HH:mm:ss');
+        $dateFormat = Carbon::parse($date, $baseTimeZone)->setTimezone($newTimeZone)->format('Y-m-d H:i:s');
 
         return $dateFormat;
 

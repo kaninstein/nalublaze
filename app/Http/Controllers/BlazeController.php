@@ -108,21 +108,21 @@ class BlazeController extends Controller
         foreach ($rollZeros as $rollZero) {
 
             $calcDirection = $this->roll
-                ->where('roll_time', '>', Carbon::parse($rollZero->roll_time)->format('Y-MM-DD HH:mm'))
-                ->where('roll_time', '<', Carbon::parse($rollZero->roll_time)->addMinute()->format('Y-MM-DD HH:mm'))
+                ->where('roll_time', '>', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i'))
+                ->where('roll_time', '<', Carbon::parse($rollZero->roll_time)->addMinute()->format('Y-m-d H:i'))
                 ->count();
 
             if ($calcDirection > 0){
 
                 $rolls = $this->roll
-                    ->where('roll_time', '>=', Carbon::parse($rollZero->roll_time)->format('Y-MM-DD HH:mm:ss'))
+                    ->where('roll_time', '>=', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i:s'))
                     ->orderby('roll_time', 'asc')
                     ->get();
 
             } else {
 
                 $rolls = $this->roll
-                    ->where('roll_time', '<=', Carbon::parse($rollZero->roll_time)->format('Y-MM-DD HH:mm:ss'))
+                    ->where('roll_time', '<=', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i:s'))
                     ->orderby('roll_time', 'desc')
                     ->get();
 
