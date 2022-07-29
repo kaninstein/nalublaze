@@ -129,7 +129,7 @@ class BlazeController extends Controller
             }
 
 
-            $count = 5;
+            $count = 0;
 
             foreach ($rolls as $roll) {
 
