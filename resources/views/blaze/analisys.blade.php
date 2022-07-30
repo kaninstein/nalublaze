@@ -82,6 +82,9 @@
                 Sinal
             </th>
             <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">
+                Cálculo
+            </th>
+            <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">
                 Pedras Base
             </th>
             <th class="border border-slate-300 dark:border-slate-600 font-semibold p-4 text-slate-900 dark:text-slate-200 text-left">
@@ -130,6 +133,17 @@
                             </div>
                         </div>
                     </div>
+                </td>
+                <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 text-center">
+                    @if($sign->count_mode == 1)
+                        + {{ $sign->getColor()->number }}
+                        @elseif($sign->count_mode == 2)
+                    + 5
+                    @elseif($sign->count_mode == 3)
+                    5 + {{ $sign->getColor()->number }}
+                    @elseif($sign->count_mode == 4)
+                        5 x  {{ $sign->getColor()->number }}
+                    @endif
                 </td>
                 <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 text-center">
                     <div class="flex flex-row justify-center space-x-8">
