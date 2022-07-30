@@ -14,6 +14,7 @@ class Sign extends Model
     protected $fillable = [
         'base_blank_id',
         'base_color_id',
+        'count_mode',
         'sign_time'
     ];
 

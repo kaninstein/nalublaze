@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('signs', function (Blueprint $table) {
-            $table->dropIfExists('count_mode');
+            $table->dropColumn('count_mode');
         });
     }
 };
