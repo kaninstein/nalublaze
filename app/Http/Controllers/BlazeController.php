@@ -123,10 +123,36 @@ class BlazeController extends Controller
 
                 if ($verifyRoll == 0) {
 
+                    //Number
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
                         'base_color_id' => $blankColorSign->id,
+                        'count_mode' => "1",
+                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours($blankColorSign->number)
+                    ]);
+
+                    //Five
+                    $this->sign->create([
+                        'base_blank_id' => $rollZero->id,
+                        'base_color_id' => $blankColorSign->id,
+                        'count_mode' => "2",
                         'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(5)
+                    ]);
+
+                    //Add
+                    $this->sign->create([
+                        'base_blank_id' => $rollZero->id,
+                        'base_color_id' => $blankColorSign->id,
+                        'count_mode' => "3",
+                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(($blankColorSign->number + 5))
+                    ]);
+
+                    //Multiply
+                    $this->sign->create([
+                        'base_blank_id' => $rollZero->id,
+                        'base_color_id' => $blankColorSign->id,
+                        'count_mode' => "3",
+                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(($blankColorSign->number * 5))
                     ]);
 
                 }
