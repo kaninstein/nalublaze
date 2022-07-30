@@ -107,50 +107,28 @@ class BlazeController extends Controller
 
         foreach ($rollZeros as $rollZero) {
 
-            $calcDirection = $this->roll
-                ->where('roll_time', '>', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i'))
-                ->where('roll_time', '<', Carbon::parse($rollZero->roll_time)->addMinute()->format('Y-m-d H:i'))
-                ->count();
+            $blankColor = $this->roll
+                ->where('roll_time', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i'))
+                ->whereNot('id', $rollZero->id);
 
-            if ($calcDirection > 0){
+            if ($blankColor->count() > 0){
 
-                $rolls = $this->roll
-                    ->where('roll_time', '>=', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i:s'))
-                    ->orderby('roll_time', 'asc')
-                    ->get();
-
-            } else {
-
-                $rolls = $this->roll
-                    ->where('roll_time', '<=', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i:s'))
-                    ->orderby('roll_time', 'desc')
-                    ->get();
-
-            }
-
-
-            $count = 0;
-
-            foreach ($rolls as $roll) {
-
-                $count += ($roll->color == 0) ? 5 : 0;
-
-                $count += $roll->number;
+                $blankColorSign = $blankColor->first();
 
                 $verifyRoll = $this->sign
                     ->where('base_blank_id', $rollZero->id)
-                    ->where('base_color_id', $roll->id)->count();
+                    ->where('base_color_id', $blankColorSign->id)
+                    ->count();
 
                 if ($verifyRoll == 0) {
 
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
-                        'base_color_id' => $roll->id,
-                        'sign_time' => Carbon::parse($rollZero->roll_time)->addMinutes($count)
+                        'base_color_id' => $blankColorSign->id,
+                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(5)
                     ]);
 
                 }
-
 
             }
 
