@@ -135,7 +135,7 @@
                     <div class="flex flex-row justify-center space-x-8">
                         <div class="entry">
                             <a
-                                href="{{ url("/blank/{$post->id}") }}"
+                                href="{{ url("/blank/{$sign->base_blank_id}") }}"
                                 target="_blank">
                                 <div class="roulette-tile">
                                     <div class="sm-box white shaddow-lg">
