@@ -147,7 +147,7 @@
                         </div>
                         <div class="entry">
                             <a
-                                href="http://localhost/larablaze/public/roll/{{ $sign->base_color_id }}"
+                                href="{{ url("/roll/{$sign->base_color_id}") }}"
                                 target="_blank">
                                 <div class="roulette-tile">
                                     <div
