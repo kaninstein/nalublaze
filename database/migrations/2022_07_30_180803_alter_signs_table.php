@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('signs', function (Blueprint $table) {
-            $table->string('count_mode')->nullable();
+            $table->integer('count_mode')->nullable();
         });
     }
 
