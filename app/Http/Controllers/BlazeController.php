@@ -108,7 +108,8 @@ class BlazeController extends Controller
         foreach ($rollZeros as $rollZero) {
 
             $blankColor = $this->roll
-                ->where('roll_time', Carbon::parse($rollZero->roll_time)->format('Y-m-d H:i'))
+                ->where('roll_time', '<' ,Carbon::parse($rollZero->roll_time)->addMinute()->format('Y-m-d H:i'))
+                ->where('roll_time', '>', Carbon::parse($rollZero->roll_time)->subMinute()->format('Y-m-d H:i'))
                 ->where('id', "<>" ,$rollZero->id);
 
             if ($blankColor->count() > 0){
