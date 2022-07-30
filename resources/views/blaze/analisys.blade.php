@@ -135,9 +135,10 @@
                     </div>
                 </td>
                 <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 text-center">
+                    {{ var_dump($sign->count_mode) }}
                     @if($sign->count_mode == 1)
                         + {{ $sign->getColor()->number }}
-                        @elseif($sign->count_mode == 2)
+                    @elseif($sign->count_mode == 2)
                     + 5
                     @elseif($sign->count_mode == 3)
                     5 + {{ $sign->getColor()->number }}
