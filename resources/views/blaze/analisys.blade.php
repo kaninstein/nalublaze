@@ -99,7 +99,7 @@
         @foreach($signs as $sign)
             <tr>
                 <td class="border border-slate-300 dark:border-slate-700 p-4 text-slate-500 dark:text-slate-400 text-center">
-                    @if(\Carbon\Carbon::parse($sign->sign_time)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
+                    @if(\Carbon\Carbon::parse($sign->sign_time)->format('Y-m-d') == \Carbon\Carbon::now()->format('Y-m-d'))
                         {{ \Carbon\Carbon::parse($sign->sign_time)->format('H:i:s') }}</td>
                     @else
                         {{ \Carbon\Carbon::parse($sign->sign_time)->format('Y-m-d H:i:s') }}</td>
