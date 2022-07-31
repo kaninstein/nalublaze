@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,5 +30,26 @@ class Roll extends Model
     public function signs()
     {
         return Sign::where('base_color_id', $this->id)->get();
+    }
+
+    public function getMinuteRoll()
+    {
+
+        $minuteRoll = $this
+            ->whereBetween('roll_time',[Carbon::parse($this->roll_time)->format('Y-m-d H:i:00'), Carbon::parse($this->roll_time)->format('Y-m-d H:i:59')])
+            ->where('id', '<>', $this->id);
+
+        return $minuteRoll;
+
+    }
+
+    public function getMinuteRolls()
+    {
+
+        $minuteRolls = $this
+            ->where('roll_time', '<' ,Carbon::parse($this->roll_time)->addMinute()->format('Y-m-d H:i:59'))
+            ->where('roll_time', '>', Carbon::parse($this->roll_time)->subMinute()->format('Y-m-d H:i:00'));
+
+        return $minuteRolls;
     }
 }

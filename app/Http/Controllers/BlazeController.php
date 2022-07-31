@@ -107,18 +107,16 @@ class BlazeController extends Controller
 
         foreach ($rollZeros as $rollZero) {
 
-            $blankColor = $this->roll
-                ->where('roll_time', '<' ,Carbon::parse($rollZero->roll_time)->addMinute()->format('Y-m-d H:i'))
-                ->where('roll_time', '>', Carbon::parse($rollZero->roll_time)->subMinute()->format('Y-m-d H:i'))
-                ->where('id', "<>" ,$rollZero->id);
+            $minuteRoll = $this->roll->find($rollZero->id)->getMinuteRoll();
 
-            if ($blankColor->count() > 0){
 
-                $blankColorSign = $blankColor->first();
+            if ($minuteRoll->count() > 0){
+
+                $minuteRollSign = $minuteRoll->first();
 
                 $verifyRoll = $this->sign
                     ->where('base_blank_id', $rollZero->id)
-                    ->where('base_color_id', $blankColorSign->id)
+                    ->where('base_color_id', $minuteRollSign->id)
                     ->count();
 
                 if ($verifyRoll == 0) {
@@ -126,15 +124,15 @@ class BlazeController extends Controller
                     //Number
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
-                        'base_color_id' => $blankColorSign->id,
+                        'base_color_id' => $minuteRollSign->id,
                         'count_mode' => 1,
-                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours($blankColorSign->number)
+                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours($minuteRollSign->number)
                     ]);
 
                     //Five
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
-                        'base_color_id' => $blankColorSign->id,
+                        'base_color_id' => $minuteRollSign->id,
                         'count_mode' => 2,
                         'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(5)
                     ]);
@@ -142,17 +140,17 @@ class BlazeController extends Controller
                     //Add
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
-                        'base_color_id' => $blankColorSign->id,
+                        'base_color_id' => $minuteRollSign->id,
                         'count_mode' => 3,
-                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(($blankColorSign->number + 5))
+                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(($minuteRollSign->number + 5))
                     ]);
 
                     //Multiply
                     $this->sign->create([
                         'base_blank_id' => $rollZero->id,
-                        'base_color_id' => $blankColorSign->id,
+                        'base_color_id' => $minuteRollSign->id,
                         'count_mode' => 4,
-                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(($blankColorSign->number * 5))
+                        'sign_time' => Carbon::parse($rollZero->roll_time)->addHours(($minuteRollSign->number * 5))
                     ]);
 
                 }
